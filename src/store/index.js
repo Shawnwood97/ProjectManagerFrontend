@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+// import cookies from "vue-cookies";
+// import axios from "axios";
 
 Vue.use(Vuex);
 
