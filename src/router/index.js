@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import home from "../views/Home.vue";
 import dashboard from "../views/Dashboard.vue";
+import project from "../views/Project.vue";
 import cookies from "vue-cookies";
 
 Vue.use(VueRouter);
@@ -16,6 +17,13 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: dashboard,
+  },
+  {
+    path: "/project/:id",
+    name: "project",
+    component: project,
+    props: true,
+    meta: { title: "Project" },
   },
 ];
 
