@@ -6,8 +6,25 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    otherProjects: null,
+    invitedProjects: null,
+  },
+  mutations: {
+    setOtherProjects(state, data) {
+      state.otherProjects = data;
+    },
+    setInvitedProjects(state, data) {
+      state.invitedProjects = data;
+    },
+    acceptProjectInvite(state, data) {
+      state.otherProjects.push(data);
+      state.invitedProjects.splice(data, 1);
+    },
+    declineProjectInvite(state, data) {
+      state.invitedProjects.splice(data, 1);
+    },
+  },
   actions: {},
   modules: {},
 });

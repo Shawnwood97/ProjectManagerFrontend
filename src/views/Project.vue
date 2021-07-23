@@ -2,7 +2,26 @@
   <main>
     <sidebar />
     <div>
-      <h1>{{ projectInfo.title }}</h1>
+      <div class="titleEditGrid">
+        <h1 v-if="!buttonInfo.showForm">{{ projectInfo.title }}</h1>
+        <v-form v-else>
+          <v-text-field
+            name="editTitle"
+            v-model="projectInfo.title"
+            id="editTitle"
+            :maxlength="100"
+            solo
+            flat
+            counter
+            autofocus
+          ></v-text-field>
+        </v-form>
+        <edit-button
+          v-if="projectInfo.can_edit === 1"
+          :buttonInfo="buttonInfo"
+          @click.native="swapButton"
+        />
+      </div>
       <div class="laneGrid">
         <project-lane
           v-for="lane in projectInfo.lanes"
@@ -19,15 +38,26 @@ import cookies from "vue-cookies";
 import axios from "axios";
 import sidebar from "../components/Sidebar.vue";
 import ProjectLane from "../components/ProjectLane";
+import EditButton from "../components/EditButton.vue";
 
 export default {
-  components: { sidebar, ProjectLane },
+  components: { sidebar, ProjectLane, EditButton },
   name: "project",
 
   data() {
     return {
       projectInfo: {},
+      buttonInfo: {
+        showForm: false,
+        newTitle: document.getElementById("editTitleInput"),
+      },
     };
+  },
+
+  methods: {
+    swapButton() {
+      this.buttonInfo.showForm = true;
+    },
   },
 
   created() {
@@ -52,6 +82,18 @@ export default {
 </script>
 
 <style lang="scss">
+.titleEditGrid {
+  display: grid;
+  grid-template-columns: max-content min-content;
+  place-items: center;
+}
+
+#editTitle {
+  font-size: 2em;
+  font-weight: bold;
+  width: 550px;
+  margin-top: 10px;
+}
 .laneGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));

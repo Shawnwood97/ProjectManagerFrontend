@@ -6,7 +6,7 @@
         <router-link
           :to="{
             name: 'project',
-            params: { id: project.id },
+            params: { id: project.project_id },
           }"
           ><div class="projectContainer">
             {{ project.title }}
@@ -40,7 +40,8 @@ export default {
         },
       })
       .then((res) => {
-        this.projects = res.data;
+        this.$store.commit("setOtherProjects", res.data);
+        this.projects = this.$store.state.otherProjects;
       })
       .catch((err) => {
         console.log(err.response);

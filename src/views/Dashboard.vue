@@ -4,16 +4,18 @@
     <div>
       <project-list />
       <other-project-list />
+      <invited-list />
     </div>
   </main>
 </template>
 
 <script>
+import InvitedList from "../components/InvitedList.vue";
 import OtherProjectList from "../components/OtherProjectList.vue";
 import ProjectList from "../components/ProjectList.vue";
 import Sidebar from "../components/Sidebar.vue";
 export default {
-  components: { ProjectList, OtherProjectList, Sidebar },
+  components: { ProjectList, OtherProjectList, Sidebar, InvitedList },
   name: "dashboard",
 };
 </script>
