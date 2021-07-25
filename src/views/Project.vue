@@ -16,11 +16,7 @@
             autofocus
           ></v-text-field>
         </v-form>
-        <edit-button
-          v-if="projectInfo.can_edit === 1"
-          :buttonInfo="buttonInfo"
-          @click.native="swapButton"
-        />
+        <span v-if="projectInfo.can_edit === 1" @click="swapButton">Edit</span>
       </div>
       <div class="laneGrid">
         <project-lane
@@ -38,10 +34,9 @@ import cookies from "vue-cookies";
 import axios from "axios";
 import sidebar from "../components/Sidebar.vue";
 import ProjectLane from "../components/ProjectLane";
-import EditButton from "../components/EditButton.vue";
 
 export default {
-  components: { sidebar, ProjectLane, EditButton },
+  components: { sidebar, ProjectLane },
   name: "project",
 
   data() {
@@ -71,7 +66,7 @@ export default {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.projectInfo = res.data;
       })
       .catch((err) => {
@@ -108,9 +103,20 @@ export default {
   }
 
   .taskContainer {
+    display: grid;
+    grid-template-columns: 1fr min-content;
     border: 1px solid #000;
     margin: 4px;
     padding: 2px;
+    width: 100%;
+    transition: all 2 ease-in;
+
+    &:hover {
+      cursor: grab;
+    }
+    &:active {
+      cursor: grabbing;
+    }
   }
 }
 </style>
