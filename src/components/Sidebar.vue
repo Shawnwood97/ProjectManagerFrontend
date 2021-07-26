@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main id="sidebar">
     <div>This is a sidebar</div>
   </main>
 </template>
@@ -11,10 +11,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-main {
+#sidebar {
   background: $secondaryb;
   color: $secondaryTx;
-  min-height: 100vh;
-  max-width: 280px;
 }
 </style>

@@ -1,21 +1,28 @@
 <template>
   <div class="mainDashPanel">
     <div class="panelTitle">Your Project Invites</div>
-    <div class="invitedProjectContainer" v-if="projects.length > 0">
+    <!-- <div class="invitedProjectContainer" v-if="projects.length > 0">
       <div>Project</div>
       <div>Onwer</div>
       <div>Role</div>
       <div>Action</div>
-    </div>
-    <div v-else class="projectContainer">No Invites</div>
+    </div> -->
+    <div class="projectContainer" v-if="projects.length <= 0">No Invites</div>
     <div v-for="project in projects" :key="project.id">
       <div class="indInvitedProject">
         <div>{{ project.title }}</div>
-        <div>{{ project.username }}</div>
-        <div>{{ project.role_name }}</div>
-        <div class="invitedActions">
-          <div @click="acceptInvite(project.id)">Y</div>
-          <div @click="declineInvite(project.id)">N</div>
+        <div class="usernameRole">
+          <div class="username">Owner: {{ project.username }}</div>
+          <div class="role">Role: {{ project.role_name }}</div>
+
+          <div class="invitedActions">
+            <div @click="acceptInvite(project.id)">
+              <v-icon class="acceptIcon">mdi-check-bold</v-icon>
+            </div>
+            <div @click="declineInvite(project.id)">
+              <v-icon class="declineIcon">mdi-close-thick</v-icon>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -82,7 +89,7 @@ export default {
           data: {
             login_token: cookies.get("session").loginToken,
             project_id: project,
-            accept_invite: 2,
+            accept_invite: 0,
           },
         })
         .then((res) => {
@@ -98,24 +105,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invitedProjectContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 0.3fr;
-  padding: 0px 8px;
-  background: gray;
-}
 .indInvitedProject {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 0.3fr;
-  border: 1px solid #000;
-  padding: 4px;
-  margin: 4px;
+  background: $primaryBg;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 4px;
+  border: 1px solid $altTx;
+
+  .usernameRole {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr max-content;
+    width: 100%;
+    place-items: center;
+  }
 
   .invitedActions {
     display: grid;
-    grid-auto-flow: column;
-    place-items: center;
-    text-decoration: underline;
+    grid-auto-flow: row;
+    place-self: center end;
+    gap: 2px;
+    .acceptIcon {
+      background: #30d372;
+      border-radius: 4px;
+      color: #fff;
+    }
+    .declineIcon {
+      background: #d33a30;
+      border-radius: 4px;
+      color: #fff;
+    }
 
     div {
       cursor: pointer;

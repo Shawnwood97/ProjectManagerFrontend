@@ -1,7 +1,6 @@
 <template>
   <main>
-    <sidebar />
-    <div>
+    <div class="projectsGrid">
       <project-list />
       <other-project-list />
       <invited-list />
@@ -13,32 +12,36 @@
 import InvitedList from "../components/InvitedList.vue";
 import OtherProjectList from "../components/OtherProjectList.vue";
 import ProjectList from "../components/ProjectList.vue";
-import Sidebar from "../components/Sidebar.vue";
+
 export default {
-  components: { ProjectList, OtherProjectList, Sidebar, InvitedList },
+  components: { ProjectList, OtherProjectList, InvitedList },
   name: "dashboard",
 };
 </script>
 
 <style lang="scss">
-main {
+.projectsGrid {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
-
 .mainDashPanel {
-  border: 1px solid #000;
+  background: $secondaryBg;
+  padding: 0px 5px;
   margin: 5px;
+  border-radius: 4px;
+  border: 1px solid $altTx;
 
   .panelTitle {
-    border: 1px solid #000;
     font-weight: bold;
     font-size: 1.2rem;
+    color: #515151;
   }
   .projectContainer {
-    margin: 2px;
-    padding: 5px;
-    border: 1px solid #000;
+    background: $primaryBg;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid $altTx;
   }
 }
 </style>
