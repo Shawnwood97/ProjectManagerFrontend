@@ -2,13 +2,15 @@
   <main>
     <div>
       <div class="titleEditGrid">
-        <h1 v-if="!buttonInfo.showForm">{{ projectInfo.title }}</h1>
+        <h1 id="projectTitle" v-if="!buttonInfo.showForm">
+          {{ projectInfo.title }}
+        </h1>
         <v-form v-else>
           <v-text-field
             name="editTitle"
-            v-model="projectInfo.title"
             id="editTitle"
             :maxlength="100"
+            :value="projectInfo.title"
             solo
             flat
             counter
@@ -16,7 +18,18 @@
           ></v-text-field>
           <v-btn color="success" @click="editTitle">Submit</v-btn>
         </v-form>
-        <span v-if="projectInfo.can_edit === 1" @click="swapButton">Edit</span>
+        <span
+          id="projectEditButton"
+          v-if="projectInfo.can_edit === 1 && buttonInfo.showForm === false"
+          @click="swapButton"
+          >Edit</span
+        >
+        <span
+          id="projectCancelButton"
+          v-if="projectInfo.can_edit === 1 && buttonInfo.showForm === true"
+          @click="swapButton"
+          >Cancel</span
+        >
       </div>
       <div class="laneGrid">
         <project-lane
@@ -49,7 +62,11 @@ export default {
 
   methods: {
     swapButton() {
-      this.buttonInfo.showForm = true;
+      if (this.buttonInfo.showForm === false) {
+        this.buttonInfo.showForm = true;
+      } else {
+        this.buttonInfo.showForm = false;
+      }
     },
     editTitle() {
       axios
@@ -67,6 +84,7 @@ export default {
           console.log(res.data);
           this.projectInfo.title = res.data.title;
           this.buttonInfo.showForm = false;
+          document.getElementById("projectEditButton").style.display = "block";
         })
         .catch((err) => {
           console.log(err.response);

@@ -11,7 +11,7 @@
         <v-form>
           <v-text-field
             name="editTaskTitle"
-            v-model="taskInfo.title"
+            :value="taskInfo.title"
             id="editTaskTitle"
             :maxlength="100"
             solo
@@ -22,7 +22,7 @@
 
           <v-text-field
             name="editTaskDesc"
-            v-model="taskInfo.description"
+            :value="taskInfo.description"
             id="editTaskDesc"
             :maxlength="100"
             solo
@@ -34,7 +34,7 @@
           <div id="inputPreview">
             <v-text-field
               name="editTaskColor"
-              v-model="currentColor"
+              :value="currentColor"
               id="editTaskColor"
               :maxlength="9"
               solo
@@ -83,6 +83,9 @@ export default {
   },
 
   methods: {
+    changeTaskInfo(obj) {
+      this.$emit("changeTask", obj);
+    },
     openDialog() {
       this.dialog = true;
     },
@@ -114,6 +117,7 @@ export default {
         })
         .then((res) => {
           console.log(res.data);
+          this.changeTaskInfo(res.data);
           this.dialog = false;
         })
         .catch((err) => {

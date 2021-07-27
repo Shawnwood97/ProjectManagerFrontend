@@ -11,12 +11,16 @@
       @mouseup="showButtons(true)"
     >
       <div>
-        <div>{{ taskInfo.title }}</div>
-        <div>{{ taskInfo.description }}</div>
+        <div>{{ thisTaskInfo.title }}</div>
+        <div>{{ thisTaskInfo.description }}</div>
       </div>
     </div>
-    <div :id="`btn${taskInfo.id}`">
-      <task-edit :taskInfo="taskInfo" class="taskButtons" />
+    <div :id="`btn${thisTaskInfo.id}`">
+      <task-edit
+        @changeTask="changeTaskInfo"
+        :taskInfo="thisTaskInfo"
+        class="taskButtons"
+      />
       <span @click="deleteTask" class="taskButtons">Delete</span>
     </div>
   </div>
@@ -37,6 +41,7 @@ export default {
   data() {
     return {
       taskDeleted: false,
+      thisTaskInfo: this.taskInfo,
     };
   },
 
@@ -45,6 +50,9 @@ export default {
   },
 
   methods: {
+    changeTaskInfo(data) {
+      this.thisTaskInfo = data;
+    },
     showButtons(val) {
       let buttonsContainer = document.getElementById(`btn${this.taskInfo.id}`);
 
