@@ -10,6 +10,7 @@
           :taskInfo="task"
         />
       </draggable>
+      <new-task-button :laneId="laneInfo.id" @taskInfo="changeTaskInfo" />
     </div>
   </div>
 </template>
@@ -19,8 +20,9 @@ import ProjectTask from "./ProjectTask.vue";
 import draggable from "vuedraggable";
 import cookies from "vue-cookies";
 import axios from "axios";
+import NewTaskButton from "./NewTaskButton.vue";
 export default {
-  components: { ProjectTask, draggable },
+  components: { ProjectTask, draggable, NewTaskButton },
   name: "project-lane",
 
   props: {
@@ -44,6 +46,9 @@ export default {
     }
   },
   methods: {
+    changeTaskInfo(data) {
+      this.sortedTasks.push(data);
+    },
     moveTask(event) {
       if (event.added !== undefined) {
         axios

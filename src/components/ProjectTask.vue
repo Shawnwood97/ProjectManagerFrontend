@@ -40,9 +40,14 @@ export default {
     };
   },
 
+  mounted() {
+    document.getElementById(`btn${this.taskInfo.id}`).style.display = "none";
+  },
+
   methods: {
     showButtons(val) {
       let buttonsContainer = document.getElementById(`btn${this.taskInfo.id}`);
+
       if (val === true) {
         buttonsContainer.style.display = "block";
       } else {
@@ -78,6 +83,10 @@ export default {
   display: grid;
   place-items: center;
   grid-template-columns: 1fr min-content;
+}
+
+.buttonsContainer {
+  display: none;
 }
 .taskButtons {
   &:hover {

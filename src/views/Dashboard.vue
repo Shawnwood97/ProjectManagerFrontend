@@ -5,16 +5,18 @@
       <other-project-list />
       <invited-list />
     </div>
+    <new-project-button />
   </main>
 </template>
 
 <script>
 import InvitedList from "../components/InvitedList.vue";
+import NewProjectButton from "../components/NewProjectButton.vue";
 import OtherProjectList from "../components/OtherProjectList.vue";
 import ProjectList from "../components/ProjectList.vue";
 
 export default {
-  components: { ProjectList, OtherProjectList, InvitedList },
+  components: { ProjectList, OtherProjectList, InvitedList, NewProjectButton },
   name: "dashboard",
 };
 </script>

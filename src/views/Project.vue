@@ -1,6 +1,5 @@
 <template>
   <main>
-    <sidebar />
     <div>
       <div class="titleEditGrid">
         <h1 v-if="!buttonInfo.showForm">{{ projectInfo.title }}</h1>
@@ -15,6 +14,7 @@
             counter
             autofocus
           ></v-text-field>
+          <v-btn color="success" @click="editTitle">Submit</v-btn>
         </v-form>
         <span v-if="projectInfo.can_edit === 1" @click="swapButton">Edit</span>
       </div>
@@ -32,11 +32,10 @@
 <script>
 import cookies from "vue-cookies";
 import axios from "axios";
-import sidebar from "../components/Sidebar.vue";
 import ProjectLane from "../components/ProjectLane";
 
 export default {
-  components: { sidebar, ProjectLane },
+  components: { ProjectLane },
   name: "project",
 
   data() {
@@ -44,7 +43,6 @@ export default {
       projectInfo: {},
       buttonInfo: {
         showForm: false,
-        newTitle: document.getElementById("editTitleInput"),
       },
     };
   },
@@ -52,6 +50,27 @@ export default {
   methods: {
     swapButton() {
       this.buttonInfo.showForm = true;
+    },
+    editTitle() {
+      axios
+        .request({
+          url: `${process.env.VUE_APP_API_LINK}/project`,
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          data: {
+            login_token: cookies.get("session").loginToken,
+            project_id: this.projectInfo.id,
+            title: document.getElementById("editTitle").value,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.projectInfo.title = res.data.title;
+          this.buttonInfo.showForm = false;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
     },
   },
 
@@ -66,7 +85,6 @@ export default {
         },
       })
       .then((res) => {
-        // console.log(res.data);
         this.projectInfo = res.data;
       })
       .catch((err) => {

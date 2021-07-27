@@ -6,13 +6,12 @@
       max-width="500px"
       transition="dialog-transition"
       ><v-card>
-        <v-card-title primary-title>Edit Task</v-card-title>
+        <v-card-title primary-title>Create New Task</v-card-title>
         <p class="fieldHeader">Title</p>
         <v-form>
           <v-text-field
-            name="editTaskTitle"
-            v-model="taskInfo.title"
-            id="editTaskTitle"
+            name="newTaskTitle"
+            id="newTaskTitle"
             :maxlength="100"
             solo
             flat
@@ -21,21 +20,20 @@
           <p class="fieldHeader">Description</p>
 
           <v-text-field
-            name="editTaskDesc"
-            v-model="taskInfo.description"
-            id="editTaskDesc"
+            name="newTaskDesc"
+            id="newTaskDesc"
             :maxlength="100"
             solo
             flat
             counter
           ></v-text-field>
-
-          <p class="fieldHeader">Accent Color</p>
+          <!-- no color picker for now, not part of the createTask endpoint, will add later -->
+          <!-- <p class="fieldHeader">Accent Color</p>
           <div id="inputPreview">
             <v-text-field
-              name="editTaskColor"
+              name="newTaskColor"
               v-model="currentColor"
-              id="editTaskColor"
+              id="newTaskColor"
               :maxlength="9"
               solo
               flat
@@ -55,12 +53,12 @@
             hide-inputs
             mode="hexa"
             swatches-max-height="200"
-          ></v-color-picker>
-          <v-btn color="success" @click="editTask">Edit</v-btn>
+          ></v-color-picker> -->
+          <v-btn color="success" @click="newTask">Create Task</v-btn>
         </v-form>
       </v-card>
     </v-dialog>
-    <div @click="dialog = true">Edit</div>
+    <div @click="dialog = true">New Task</div>
   </div>
 </template>
 
@@ -68,52 +66,54 @@
 import axios from "axios";
 import cookies from "vue-cookies";
 export default {
-  name: "task-edit",
+  name: "new-task-button",
 
   props: {
-    taskInfo: Object,
+    laneId: Number,
   },
 
   data() {
     return {
       dialog: false,
-      showColorPicker: false,
-      currentColor: "#" + this.taskInfo.accent_hex,
+      //     showColorPicker: false,
+      //     currentColor: "#FFFFFF",
     };
   },
 
   methods: {
-    openDialog() {
-      this.dialog = true;
+    changeTaskInfo(obj) {
+      this.$emit("taskInfo", obj);
     },
-    toggleColorPicker() {
-      if (this.showColorPicker === false) {
-        this.showColorPicker = true;
-      } else {
-        this.showColorPicker = false;
-      }
-    },
-
-    editTask() {
-      while (this.currentColor.charAt(0) === "#") {
-        this.currentColor = this.currentColor.slice(1);
-      }
+    // toggleColorPicker() {
+    //   if (this.showColorPicker === false) {
+    //     this.showColorPicker = true;
+    //   } else {
+    //     this.showColorPicker = false;
+    //   }
+    // },
+    newTask() {
+      // while (this.currentColor.charAt(0) === "#") {
+      //   this.currentColor = this.currentColor.slice(1);
+      // }
       axios
         .request({
           url: `${process.env.VUE_APP_API_LINK}/tasks`,
-          method: "PATCH",
+          method: "POST",
           headers: { "Content-Type": "application/json" },
           data: {
             login_token: cookies.get("session").loginToken,
-            task_id: this.taskInfo.id,
-            lane_id: this.taskInfo.lane_id,
-            title: document.getElementById("editTaskTitle").value,
-            description: document.getElementById("editTaskDesc").value,
-            accent_hex: this.currentColor,
+            lane_id: this.laneId,
+            title: document.getElementById("newTaskTitle").value,
+            description: document.getElementById("newTaskDesc").value,
           },
         })
         .then((res) => {
           console.log(res.data);
+          this.changeTaskInfo({
+            lane_id: this.laneId,
+            title: document.getElementById("newTaskTitle").value,
+            description: document.getElementById("newTaskDesc").value,
+          });
           this.dialog = false;
         })
         .catch((err) => {

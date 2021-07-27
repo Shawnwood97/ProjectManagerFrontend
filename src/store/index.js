@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    userProjects: null,
     otherProjects: null,
     invitedProjects: null,
   },
@@ -16,6 +17,12 @@ export default new Vuex.Store({
     },
     setInvitedProjects(state, data) {
       state.invitedProjects = data;
+    },
+    setUserProjects(state, data) {
+      state.userProjects = data;
+    },
+    createUserProject(state, data) {
+      state.userProjects.push(data);
     },
     acceptProjectInvite(state, data) {
       state.otherProjects.push(data);

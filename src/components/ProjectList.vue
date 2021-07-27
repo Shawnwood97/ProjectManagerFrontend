@@ -38,7 +38,8 @@ export default {
         },
       })
       .then((res) => {
-        this.projects = res.data;
+        this.$store.commit("setUserProjects", res.data);
+        this.projects = this.$store.state.userProjects;
       })
       .catch((err) => {
         console.log(err.response);
