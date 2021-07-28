@@ -101,7 +101,7 @@ export default {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           data: {
-            login_token: cookies.get("session").loginToken,
+            login_token: cookies.get("session").login_token,
             lane_id: this.laneId,
             title: document.getElementById("newTaskTitle").value,
             description: document.getElementById("newTaskDesc").value,
@@ -109,11 +109,7 @@ export default {
         })
         .then((res) => {
           console.log(res.data);
-          this.changeTaskInfo({
-            lane_id: this.laneId,
-            title: document.getElementById("newTaskTitle").value,
-            description: document.getElementById("newTaskDesc").value,
-          });
+          this.changeTaskInfo(res.data);
           this.dialog = false;
         })
         .catch((err) => {

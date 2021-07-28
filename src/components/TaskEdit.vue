@@ -107,12 +107,12 @@ export default {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           data: {
-            login_token: cookies.get("session").loginToken,
+            login_token: cookies.get("session").login_token,
             task_id: this.taskInfo.id,
             lane_id: this.taskInfo.lane_id,
             title: document.getElementById("editTaskTitle").value,
             description: document.getElementById("editTaskDesc").value,
-            accent_hex: this.currentColor,
+            accent_hex: this.taskInfo.accent_hex,
           },
         })
         .then((res) => {

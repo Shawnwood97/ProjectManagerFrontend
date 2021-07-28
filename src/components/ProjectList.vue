@@ -1,7 +1,7 @@
 <template>
   <div class="mainDashPanel">
+    <div class="panelTitle">Your Projects</div>
     <div v-if="projects.length > 0">
-      <div class="panelTitle">Your Projects</div>
       <div v-for="project in projects" :key="project.id">
         <router-link
           :to="{
@@ -34,7 +34,7 @@ export default {
         url: `${process.env.VUE_APP_API_LINK}/projects/owned`,
         method: "GET",
         params: {
-          login_token: cookies.get("session").loginToken,
+          login_token: cookies.get("session").login_token,
         },
       })
       .then((res) => {

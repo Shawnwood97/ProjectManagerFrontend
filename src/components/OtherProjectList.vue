@@ -36,7 +36,7 @@ export default {
         url: `${process.env.VUE_APP_API_LINK}/projects/accepted`,
         method: "GET",
         params: {
-          login_token: cookies.get("session").loginToken,
+          login_token: cookies.get("session").login_token,
         },
       })
       .then((res) => {

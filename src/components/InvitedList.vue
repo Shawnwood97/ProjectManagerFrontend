@@ -47,7 +47,7 @@ export default {
         url: `${process.env.VUE_APP_API_LINK}/project/invite`,
         method: "GET",
         params: {
-          login_token: cookies.get("session").loginToken,
+          login_token: cookies.get("session").login_token,
         },
       })
       .then((res) => {
@@ -67,7 +67,7 @@ export default {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           data: {
-            login_token: cookies.get("session").loginToken,
+            login_token: cookies.get("session").login_token,
             project_id: project,
             accept_invite: 1,
           },
@@ -87,7 +87,7 @@ export default {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           data: {
-            login_token: cookies.get("session").loginToken,
+            login_token: cookies.get("session").login_token,
             project_id: project,
             accept_invite: 0,
           },

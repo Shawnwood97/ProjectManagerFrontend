@@ -31,26 +31,43 @@
           >Cancel</span
         >
       </div>
-      <div class="laneGrid">
-        <project-lane
-          v-for="lane in projectInfo.lanes"
-          :key="lane.id"
-          :laneInfo="lane"
-        />
+      <div>
+        <draggable
+          class="laneGrid"
+          :list="projectInfo.lanes"
+          group="lanes"
+          @change="moveLane"
+        >
+          <project-lane
+            v-for="lane in projectInfo.lanes"
+            :key="lane.id"
+            :laneInfo="lane"
+        /></draggable>
       </div>
+      <new-lane-button
+        v-if="projectInfo.can_edit === 1"
+        @laneInfo="addLaneInfo"
+        :projectId="projectInfo.id"
+      />
     </div>
+    <invite-user
+      v-if="projectInfo.can_edit === 1"
+      :projectId="projectInfo.id"
+    />
   </main>
 </template>
 
 <script>
 import cookies from "vue-cookies";
 import axios from "axios";
+import draggable from "vuedraggable";
 import ProjectLane from "../components/ProjectLane";
+import NewLaneButton from "../components/NewLaneButton.vue";
+import InviteUser from "../components/InviteUser.vue";
 
 export default {
-  components: { ProjectLane },
+  components: { ProjectLane, NewLaneButton, InviteUser, draggable },
   name: "project",
-
   data() {
     return {
       projectInfo: {},
@@ -61,6 +78,33 @@ export default {
   },
 
   methods: {
+    moveLane(event) {
+      console.log(event);
+      if (event.moved !== undefined) {
+        axios
+          .request({
+            url: `${process.env.VUE_APP_API_LINK}/lanes`,
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            data: {
+              login_token: cookies.get("session").login_token,
+              lane_id: event.moved.element.id,
+              old_index: event.moved.oldIndex,
+              new_index: event.moved.newIndex,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err.response);
+          });
+      }
+    },
+    addLaneInfo(data) {
+      this.projectInfo.lanes.push(data);
+      console.log(this.projectInfo);
+    },
     swapButton() {
       if (this.buttonInfo.showForm === false) {
         this.buttonInfo.showForm = true;
@@ -75,7 +119,7 @@ export default {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           data: {
-            login_token: cookies.get("session").loginToken,
+            login_token: cookies.get("session").login_token,
             project_id: this.projectInfo.id,
             title: document.getElementById("editTitle").value,
           },
@@ -97,8 +141,8 @@ export default {
       .request({
         url: `${process.env.VUE_APP_API_LINK}/project`,
         method: "GET",
+        headers: { login_token: cookies.get("session").login_token },
         params: {
-          login_token: cookies.get("session").loginToken,
           project_id: this.$route.params.id,
         },
       })
@@ -132,27 +176,26 @@ export default {
 .laneContainer {
   border: 1px solid #000;
   margin: 4px;
+}
+.laneTitle {
+  border: 1px solid #000;
+  padding: 2px 4px;
+}
 
-  .laneTitle {
-    border: 1px solid #000;
-    padding: 2px 4px;
+.taskContainer {
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  border: 1px solid #000;
+  margin: 4px;
+  padding: 2px;
+  width: 100%;
+  transition: all 2 ease-in;
+
+  &:hover {
+    cursor: grab;
   }
-
-  .taskContainer {
-    display: grid;
-    grid-template-columns: 1fr min-content;
-    border: 1px solid #000;
-    margin: 4px;
-    padding: 2px;
-    width: 100%;
-    transition: all 2 ease-in;
-
-    &:hover {
-      cursor: grab;
-    }
-    &:active {
-      cursor: grabbing;
-    }
+  &:active {
+    cursor: grabbing;
   }
 }
 </style>

@@ -57,7 +57,7 @@ export default {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             data: {
-              login_token: cookies.get("session").loginToken,
+              login_token: cookies.get("session").login_token,
               task_id: event.added.element.id,
               lane_id: this.laneInfo.id,
               new_index: event.added.newIndex,
@@ -79,7 +79,7 @@ export default {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             data: {
-              login_token: cookies.get("session").loginToken,
+              login_token: cookies.get("session").login_token,
               task_id: event.removed.element.id,
               old_lane_id: this.laneInfo.id,
               old_index: event.removed.oldIndex,
@@ -100,7 +100,7 @@ export default {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             data: {
-              login_token: cookies.get("session").loginToken,
+              login_token: cookies.get("session").login_token,
               task_id: event.moved.element.id,
               lane_id: this.laneInfo.id,
               old_lane_id: this.laneInfo.id,

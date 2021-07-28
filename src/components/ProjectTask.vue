@@ -69,7 +69,7 @@ export default {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           data: {
-            login_token: cookies.get("session").loginToken,
+            login_token: cookies.get("session").login_token,
             task_id: this.taskInfo.id,
             lane_id: this.taskInfo.lane_id,
           },

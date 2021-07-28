@@ -137,6 +137,7 @@ export default {
 main {
   display: grid;
   place-items: center;
+  grid-column: 1 / span 2;
   min-height: 100vh;
 }
 #formContainer {
