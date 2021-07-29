@@ -34,20 +34,23 @@
       <div>
         <draggable
           class="laneGrid"
-          :list="projectInfo.lanes"
+          :list="sortedLanes"
           group="lanes"
           @change="moveLane"
+          :disabled="projectInfo.can_edit !== 1"
         >
           <project-lane
-            v-for="lane in projectInfo.lanes"
+            v-for="lane in sortedLanes"
             :key="lane.id"
             :laneInfo="lane"
+            :canEdit="projectInfo.can_edit"
         /></draggable>
       </div>
       <new-lane-button
         v-if="projectInfo.can_edit === 1"
         @laneInfo="addLaneInfo"
         :projectId="projectInfo.id"
+        :canEdit="projectInfo.can_edit"
       />
     </div>
     <invite-user
@@ -68,9 +71,11 @@ import InviteUser from "../components/InviteUser.vue";
 export default {
   components: { ProjectLane, NewLaneButton, InviteUser, draggable },
   name: "project",
+
   data() {
     return {
       projectInfo: {},
+      sortedLanes: [],
       buttonInfo: {
         showForm: false,
       },
@@ -102,8 +107,7 @@ export default {
       }
     },
     addLaneInfo(data) {
-      this.projectInfo.lanes.push(data);
-      console.log(this.projectInfo);
+      this.sortedLanes.push(data);
     },
     swapButton() {
       if (this.buttonInfo.showForm === false) {
@@ -141,13 +145,23 @@ export default {
       .request({
         url: `${process.env.VUE_APP_API_LINK}/project`,
         method: "GET",
-        headers: { login_token: cookies.get("session").login_token },
+        headers: { "Login-Token": cookies.get("session").login_token },
         params: {
           project_id: this.$route.params.id,
         },
       })
       .then((res) => {
+        console.log(res.data);
         this.projectInfo = res.data;
+
+        let lane_order = JSON.parse(this.projectInfo.lane_order);
+        for (let i in lane_order) {
+          for (let j in this.projectInfo.lanes) {
+            if (lane_order[i] === this.projectInfo.lanes[j].id) {
+              this.sortedLanes.push(this.projectInfo.lanes[j]);
+            }
+          }
+        }
       })
       .catch((err) => {
         console.log(err.response);

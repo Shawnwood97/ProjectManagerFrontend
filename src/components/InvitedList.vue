@@ -46,9 +46,7 @@ export default {
       .request({
         url: `${process.env.VUE_APP_API_LINK}/project/invite`,
         method: "GET",
-        params: {
-          login_token: cookies.get("session").login_token,
-        },
+        headers: { "Login-Token": cookies.get("session").login_token },
       })
       .then((res) => {
         this.$store.commit("setInvitedProjects", res.data);

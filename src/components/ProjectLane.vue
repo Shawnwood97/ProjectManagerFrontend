@@ -1,16 +1,34 @@
 <template>
   <div>
     <div class="laneContainer">
-      <h3 class="laneTitle">{{ laneInfo.title }}</h3>
-
-      <draggable :list="sortedTasks" group="tasks" @change="moveTask"
+      <div class="laneHeader">
+        <h3 class="laneTitle">{{ thisLaneInfo.title }}</h3>
+        <div :id="`laneBtn${this.laneInfo.id}`">
+          <lane-edit-button
+            @changeLane="changeLaneInfo"
+            :laneInfo="thisLaneInfo"
+            v-if="canEdit === 1"
+          />
+        </div>
+      </div>
+      <draggable
+        :disabled="canEdit !== 1"
+        :list="sortedTasks"
+        group="tasks"
+        @change="moveTask"
         ><project-task
           v-for="task in sortedTasks"
           :key="task.id"
           :taskInfo="task"
+          :canEdit="canEdit"
         />
       </draggable>
-      <new-task-button :laneId="laneInfo.id" @taskInfo="changeTaskInfo" />
+      <new-task-button
+        :laneId="laneInfo.id"
+        @taskInfo="changeTaskInfo"
+        :canEdit="canEdit"
+        v-if="canEdit === 1"
+      />
     </div>
   </div>
 </template>
@@ -21,17 +39,20 @@ import draggable from "vuedraggable";
 import cookies from "vue-cookies";
 import axios from "axios";
 import NewTaskButton from "./NewTaskButton.vue";
+import LaneEditButton from "./LaneEditButton.vue";
 export default {
-  components: { ProjectTask, draggable, NewTaskButton },
+  components: { ProjectTask, draggable, NewTaskButton, LaneEditButton },
   name: "project-lane",
 
   props: {
     laneInfo: Object,
+    canEdit: Number,
   },
 
   data() {
     return {
       sortedTasks: [],
+      thisLaneInfo: this.laneInfo,
     };
   },
 
@@ -48,6 +69,9 @@ export default {
   methods: {
     changeTaskInfo(data) {
       this.sortedTasks.push(data);
+    },
+    changeLaneInfo(data) {
+      this.thisLaneInfo = data;
     },
     moveTask(event) {
       if (event.added !== undefined) {
@@ -121,8 +145,9 @@ export default {
 </script>
 
 <style lang="scss">
-// .deleteButton {
-//   place-self: center;
-//   display: none;
-// }
+.laneHeader {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr max-content;
+}
 </style>

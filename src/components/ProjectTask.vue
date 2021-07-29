@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!taskDeleted"
     class="mainContainer"
     @mouseover="showButtons(true)"
     @mouseleave="showButtons(false)"
@@ -17,11 +18,14 @@
     </div>
     <div :id="`btn${thisTaskInfo.id}`">
       <task-edit
+        v-if="canEdit === 1"
         @changeTask="changeTaskInfo"
         :taskInfo="thisTaskInfo"
         class="taskButtons"
       />
-      <span @click="deleteTask" class="taskButtons">Delete</span>
+      <span v-if="canEdit === 1" @click="deleteTask" class="taskButtons"
+        >Delete</span
+      >
     </div>
   </div>
 </template>
@@ -36,6 +40,7 @@ export default {
 
   props: {
     taskInfo: Object,
+    canEdit: Number,
   },
 
   data() {
