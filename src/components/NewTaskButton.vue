@@ -8,10 +8,10 @@
       ><v-card>
         <v-card-title primary-title>Create New Task</v-card-title>
         <p class="fieldHeader">Title</p>
-        <v-form>
+        <v-form ref="taskForm">
           <v-text-field
             name="newTaskTitle"
-            id="newTaskTitle"
+            :id="`newTaskTitle${this.laneId}`"
             :maxlength="100"
             solo
             flat
@@ -21,7 +21,7 @@
 
           <v-text-field
             name="newTaskDesc"
-            id="newTaskDesc"
+            :id="`newTaskDesc${this.laneId}`"
             :maxlength="100"
             solo
             flat
@@ -103,13 +103,17 @@ export default {
           data: {
             login_token: cookies.get("session").login_token,
             lane_id: this.laneId,
-            title: document.getElementById("newTaskTitle").value,
-            description: document.getElementById("newTaskDesc").value,
+            title: document.getElementById(`newTaskTitle${this.laneId}`).value,
+            description: document.getElementById(`newTaskDesc${this.laneId}`)
+              .value,
           },
         })
         .then((res) => {
           console.log(res.data);
           this.changeTaskInfo(res.data);
+          this.$refs.taskForm.reset();
+          // document.getElementById(`newTaskTitle${this.laneId}`).value = null;
+          // document.getElementById(`newTaskDesc${this.laneId}`).value = null;
           this.dialog = false;
         })
         .catch((err) => {

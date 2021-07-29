@@ -22,7 +22,9 @@
         </v-form>
       </v-card>
     </v-dialog>
-    <div @click="laneDialog = true">Edit</div>
+    <v-icon class="laneEditButton" @click="laneDialog = true"
+      >mdi-square-edit-outline</v-icon
+    >
   </div>
 </template>
 
@@ -75,4 +77,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.laneEditButton {
+  color: $secondaryb;
+}
+</style>

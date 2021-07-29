@@ -5,18 +5,16 @@
       <other-project-list />
       <invited-list />
     </div>
-    <new-project-button />
   </main>
 </template>
 
 <script>
 import InvitedList from "../components/InvitedList.vue";
-import NewProjectButton from "../components/NewProjectButton.vue";
 import OtherProjectList from "../components/OtherProjectList.vue";
 import ProjectList from "../components/ProjectList.vue";
 
 export default {
-  components: { ProjectList, OtherProjectList, InvitedList, NewProjectButton },
+  components: { ProjectList, OtherProjectList, InvitedList },
   name: "dashboard",
 };
 </script>
@@ -37,6 +35,7 @@ export default {
     font-weight: bold;
     font-size: 1.2rem;
     color: #515151;
+    margin-top: 5px;
   }
   .projectContainer {
     background: $primaryBg;
@@ -44,6 +43,12 @@ export default {
     margin: 5px 0;
     border-radius: 4px;
     border: 1px solid $altTx;
+  }
+
+  .btnGrid {
+    display: grid;
+    place-items: center;
+    margin: 10px 0;
   }
 }
 </style>

@@ -16,4 +16,34 @@ $secondaryTx: #9FC6DC;
 $altTx: #aaaaaa;
 $primaryBg: #FAFAFA;
 $secondaryBg: #E8E8E8;
-$redBg: #ff2121;
+$redBg: #912f2f;
+$altRedBg: #ba2d2d;
+
+// Button Mixins
+
+@mixin priButton {
+  background: $secondaryb;
+  width: max-content;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: $primaryTx;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  
+  &:hover {
+    cursor: pointer;
+    background: #0c3d59;
+    }
+  }
+@mixin cancelButton {
+  background: $redBg;
+  width: max-content;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: $primaryTx;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  
+  &:hover {
+    cursor: pointer;
+    background: $altRedBg;
+    }
+  }

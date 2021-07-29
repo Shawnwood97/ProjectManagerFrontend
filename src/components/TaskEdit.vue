@@ -56,11 +56,13 @@
             mode="hexa"
             swatches-max-height="200"
           ></v-color-picker>
-          <v-btn color="success" @click="editTask">Edit</v-btn>
+          <span class="taskEditButton" @click="editTask">Edit</span>
         </v-form>
       </v-card>
     </v-dialog>
-    <div @click="dialog = true">Edit</div>
+    <v-icon class="taskEditButton" @click="dialog = true"
+      >mdi-square-edit-outline</v-icon
+    >
   </div>
 </template>
 
@@ -144,5 +146,10 @@ export default {
       cursor: pointer;
     }
   }
+}
+.taskEditButton {
+  color: $secondaryb;
+  padding: 0;
+  margin: 0;
 }
 </style>

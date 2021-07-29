@@ -21,7 +21,7 @@
         </v-form>
       </v-card>
     </v-dialog>
-    <div @click="dialog = true">Create New Project</div>
+    <div class="createButton" @click="dialog = true">New Project</div>
   </div>
 </template>
 
@@ -62,4 +62,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.createButton {
+  @include priButton;
+}
+</style>

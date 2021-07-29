@@ -1,15 +1,18 @@
 <template>
-  <div>
+  <div v-if="!laneDeleted">
     <div class="laneContainer">
       <div class="laneHeader">
         <h3 class="laneTitle">{{ thisLaneInfo.title }}</h3>
-        <div :id="`laneBtn${this.laneInfo.id}`">
-          <lane-edit-button
-            @changeLane="changeLaneInfo"
-            :laneInfo="thisLaneInfo"
-            v-if="canEdit === 1"
-          />
-        </div>
+        <lane-edit-button
+          @changeLane="changeLaneInfo"
+          :laneInfo="thisLaneInfo"
+          v-if="canEdit === 1"
+        />
+        <lane-delete-button
+          @deleteLane="deleteLaneInfo"
+          v-if="canEdit === 1"
+          :laneInfo="thisLaneInfo"
+        />
       </div>
       <draggable
         :disabled="canEdit !== 1"
@@ -24,7 +27,7 @@
         />
       </draggable>
       <new-task-button
-        :laneId="laneInfo.id"
+        :laneId="thisLaneInfo.id"
         @taskInfo="changeTaskInfo"
         :canEdit="canEdit"
         v-if="canEdit === 1"
@@ -40,8 +43,15 @@ import cookies from "vue-cookies";
 import axios from "axios";
 import NewTaskButton from "./NewTaskButton.vue";
 import LaneEditButton from "./LaneEditButton.vue";
+import LaneDeleteButton from "./LaneDeleteButton.vue";
 export default {
-  components: { ProjectTask, draggable, NewTaskButton, LaneEditButton },
+  components: {
+    ProjectTask,
+    draggable,
+    NewTaskButton,
+    LaneEditButton,
+    LaneDeleteButton,
+  },
   name: "project-lane",
 
   props: {
@@ -53,6 +63,7 @@ export default {
     return {
       sortedTasks: [],
       thisLaneInfo: this.laneInfo,
+      laneDeleted: false,
     };
   },
 
@@ -73,6 +84,9 @@ export default {
     changeLaneInfo(data) {
       this.thisLaneInfo = data;
     },
+    deleteLaneInfo() {
+      this.laneDeleted = true;
+    },
     moveTask(event) {
       if (event.added !== undefined) {
         axios
@@ -83,13 +97,13 @@ export default {
             data: {
               login_token: cookies.get("session").login_token,
               task_id: event.added.element.id,
-              lane_id: this.laneInfo.id,
+              lane_id: this.thisLaneInfo.id,
               new_index: event.added.newIndex,
             },
           })
           .then((res) => {
             console.log(res.data);
-            event.added.element.lane_id = this.laneInfo.id;
+            event.added.element.lane_id = this.thisLaneInfo.id;
           })
           .catch((err) => {
             console.log(err.response);
@@ -105,7 +119,7 @@ export default {
             data: {
               login_token: cookies.get("session").login_token,
               task_id: event.removed.element.id,
-              old_lane_id: this.laneInfo.id,
+              old_lane_id: this.thisLaneInfo.id,
               old_index: event.removed.oldIndex,
             },
           })
@@ -126,8 +140,8 @@ export default {
             data: {
               login_token: cookies.get("session").login_token,
               task_id: event.moved.element.id,
-              lane_id: this.laneInfo.id,
-              old_lane_id: this.laneInfo.id,
+              lane_id: this.thisLaneInfo.id,
+              old_lane_id: this.thisLaneInfo.id,
               old_index: event.moved.oldIndex,
               new_index: event.moved.newIndex,
             },
@@ -148,6 +162,6 @@ export default {
 .laneHeader {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 1fr max-content;
+  grid-template-columns: 1fr max-content max-content;
 }
 </style>

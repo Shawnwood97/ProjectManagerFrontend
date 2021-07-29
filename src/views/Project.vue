@@ -1,36 +1,38 @@
 <template>
   <main>
-    <div>
-      <div class="titleEditGrid">
-        <h1 id="projectTitle" v-if="!buttonInfo.showForm">
-          {{ projectInfo.title }}
-        </h1>
-        <v-form v-else>
-          <v-text-field
-            name="editTitle"
-            id="editTitle"
-            :maxlength="100"
-            :value="projectInfo.title"
-            solo
-            flat
-            counter
-            autofocus
-          ></v-text-field>
-          <v-btn color="success" @click="editTitle">Submit</v-btn>
-        </v-form>
-        <span
-          id="projectEditButton"
-          v-if="projectInfo.can_edit === 1 && buttonInfo.showForm === false"
-          @click="swapButton"
-          >Edit</span
-        >
-        <span
-          id="projectCancelButton"
-          v-if="projectInfo.can_edit === 1 && buttonInfo.showForm === true"
-          @click="swapButton"
-          >Cancel</span
-        >
-      </div>
+    <div class="titleEditGrid">
+      <h1 id="projectTitle" v-if="!buttonInfo.showForm">
+        {{ projectInfo.title }}
+      </h1>
+      <v-form v-else>
+        <v-text-field
+          name="editTitle"
+          id="editTitle"
+          :maxlength="50"
+          :value="projectInfo.title"
+          solo
+          hide-details="true"
+          flat
+          autofocus
+        ></v-text-field>
+        <div class="editBtnContainer">
+          <v-btn id="projectSubmitButton" @click="editTitle">Submit</v-btn>
+          <v-btn
+            id="projectCancelButton"
+            v-if="projectInfo.can_edit === 1 && buttonInfo.showForm === true"
+            @click="swapButton"
+            >Cancel</v-btn
+          >
+        </div>
+      </v-form>
+      <span
+        id="projectEditButton"
+        v-if="projectInfo.can_edit === 1 && buttonInfo.showForm === false"
+        @click="swapButton"
+        ><v-icon id="projectEditIcon">mdi-square-edit-outline</v-icon></span
+      >
+    </div>
+    <div class="mainGrid">
       <div>
         <draggable
           class="laneGrid"
@@ -171,45 +173,61 @@ export default {
 </script>
 
 <style lang="scss">
+.mainGrid {
+  display: grid;
+  margin-left: 10px;
+}
 .titleEditGrid {
   display: grid;
   grid-template-columns: max-content min-content;
   place-items: center;
+  background: $secondaryBg;
+  border-bottom: 1px solid #c9c9c9;
+  padding: 10px;
 }
 
 #editTitle {
   font-size: 2em;
   font-weight: bold;
-  width: 550px;
+  width: 600px;
+}
+
+.editBtnContainer {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  place-items: center;
   margin-top: 10px;
+  gap: 10px;
+
+  #projectSubmitButton {
+    @include priButton;
+  }
+  #projectCancelButton {
+    @include cancelButton;
+  }
 }
 .laneGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  margin-top: 10px;
 }
 .laneContainer {
-  border: 1px solid #000;
   margin: 4px;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #c9c9c9;
+  background: $secondaryBg;
 }
 .laneTitle {
-  border: 1px solid #000;
   padding: 2px 4px;
 }
 
-.taskContainer {
-  display: grid;
-  grid-template-columns: 1fr min-content;
-  border: 1px solid #000;
-  margin: 4px;
-  padding: 2px;
-  width: 100%;
-  transition: all 2 ease-in;
+#projectEditIcon {
+  color: $secondaryb;
+  margin-left: 10px;
 
   &:hover {
-    cursor: grab;
-  }
-  &:active {
-    cursor: grabbing;
+    cursor: pointer;
   }
 }
 </style>

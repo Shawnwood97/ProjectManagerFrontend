@@ -13,13 +13,18 @@
       </div>
     </div>
     <div v-else class="projectContainer">No Projects</div>
+    <div class="btnGrid">
+      <new-project-button />
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import cookies from "vue-cookies";
+import NewProjectButton from "./NewProjectButton.vue";
 export default {
+  components: { NewProjectButton },
   name: "project-list",
 
   data() {

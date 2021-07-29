@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="!taskDeleted"
-    class="mainContainer"
+    class="mainTaskContainer"
     @mouseover="showButtons(true)"
     @mouseleave="showButtons(false)"
   >
@@ -23,8 +23,8 @@
         :taskInfo="thisTaskInfo"
         class="taskButtons"
       />
-      <span v-if="canEdit === 1" @click="deleteTask" class="taskButtons"
-        >Delete</span
+      <v-icon v-if="canEdit === 1" @click="deleteTask" class="taskDeleteButton"
+        >mdi-trash-can-outline</v-icon
       >
     </div>
   </div>
@@ -92,19 +92,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mainContainer {
+.mainTaskContainer {
+  background: $primaryBg;
+  border-radius: 4px;
   display: grid;
-  place-items: center;
-  grid-template-columns: 1fr min-content;
+  grid-template-columns: 1fr max-content;
+  margin: 6px 0;
+  border-bottom: 1px solid #a3a3a3;
+  padding: 6px 0 4px 8px;
+  width: 100%;
+  min-height: 60px;
+
+  &:hover {
+    cursor: grab;
+  }
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 .buttonsContainer {
   display: none;
+  margin: 0;
 }
-.taskButtons {
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
+.taskDeleteButton {
+  color: $redBg;
 }
 </style>
