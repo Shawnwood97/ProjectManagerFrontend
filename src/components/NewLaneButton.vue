@@ -21,7 +21,7 @@
         </v-form>
       </v-card>
     </v-dialog>
-    <div @click="dialog = true">Create New Lane</div>
+    <div class="newLaneButton" @click="dialog = true">+ New Lane</div>
   </div>
 </template>
 
@@ -70,4 +70,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.newLaneButton {
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin: 4px 0;
+  padding: 10px 0;
+
+  &:hover {
+    cursor: pointer;
+    background: $secondaryBg;
+  }
+}
+</style>

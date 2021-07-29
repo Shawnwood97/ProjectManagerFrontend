@@ -90,15 +90,11 @@ export default {
         .then((res) => {
           console.log(res.data);
           cookies.set("session", res.data);
+          this.$router.push("Dashboard");
         })
         .catch((err) => {
           console.log(err.response);
           cookies.remove("session");
-        })
-        .finally(() => {
-          setTimeout(() => {
-            this.btnLoading = false;
-          }, 3000);
         });
     },
     registerUser() {
@@ -119,15 +115,11 @@ export default {
         .then((res) => {
           console.log(res.data);
           cookies.set("session", res.data);
+          this.$router.push("Dashboard");
         })
         .catch((err) => {
           console.log(err.response);
           cookies.remove("session");
-        })
-        .finally(() => {
-          setTimeout(() => {
-            this.btnLoading = false;
-          }, 3000);
         });
     },
   },

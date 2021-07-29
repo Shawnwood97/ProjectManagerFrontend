@@ -58,7 +58,7 @@
         </v-form>
       </v-card>
     </v-dialog>
-    <div @click="dialog = true">New Task</div>
+    <div class="newTaskButton" @click="dialog = true">New Task</div>
   </div>
 </template>
 
@@ -112,8 +112,6 @@ export default {
           console.log(res.data);
           this.changeTaskInfo(res.data);
           this.$refs.taskForm.reset();
-          // document.getElementById(`newTaskTitle${this.laneId}`).value = null;
-          // document.getElementById(`newTaskDesc${this.laneId}`).value = null;
           this.dialog = false;
         })
         .catch((err) => {
@@ -139,6 +137,18 @@ export default {
     &:hover {
       cursor: pointer;
     }
+  }
+}
+
+.newTaskButton {
+  background: #f5f5f5;
+  text-align: center;
+  padding: 4px 0;
+  border-radius: 4px;
+
+  &:hover {
+    background: $primaryBg;
+    cursor: pointer;
   }
 }
 </style>

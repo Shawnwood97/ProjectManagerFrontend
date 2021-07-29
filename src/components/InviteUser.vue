@@ -10,15 +10,19 @@
         solo
         flat
       ></v-text-field>
-      <v-text-field
-        name="roleId"
+      <v-select
+        return-object
+        v-model="selectedRole"
         id="roleId"
-        placeholder="Role"
-        :maxlength="2"
-        solo
+        :items="roles"
+        label="Select User Role"
+        item-text="name"
+        item-value="value"
+        dense
         flat
-      ></v-text-field>
-      <v-btn color="success" @click="newInvite">Invite</v-btn>
+        solo
+      ></v-select>
+      <div class="inviteButton" @click="newInvite">Invite</div>
     </v-form>
   </div>
 </template>
@@ -33,6 +37,22 @@ export default {
     projectId: Number,
   },
 
+  data() {
+    return {
+      roles: [
+        {
+          name: "View",
+          value: 1,
+        },
+        {
+          name: "Edit",
+          value: 2,
+        },
+      ],
+      selectedRole: null,
+    };
+  },
+
   methods: {
     newInvite() {
       axios
@@ -44,7 +64,7 @@ export default {
             login_token: cookies.get("session").login_token,
             project_id: this.projectId,
             username: document.getElementById("userInvInput").value,
-            role_id: Number(document.getElementById("roleId").value),
+            role_id: this.selectedRole.value,
           },
         })
         .then((res) => {
@@ -60,10 +80,18 @@ export default {
 
 <style lang="scss" scoped>
 .fieldHeader {
-  margin-top: 20px;
+  font-weight: bold;
 }
 
 #formContainer {
   width: 400px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.inviteButton {
+  @include priButton;
 }
 </style>

@@ -32,9 +32,11 @@
         ><v-icon id="projectEditIcon">mdi-square-edit-outline</v-icon></span
       >
     </div>
+
     <div class="mainGrid">
       <div>
         <draggable
+          draggable=".projectLane"
           class="laneGrid"
           :list="sortedLanes"
           group="lanes"
@@ -42,21 +44,29 @@
           :disabled="projectInfo.can_edit !== 1"
         >
           <project-lane
+            class="projectLane"
             v-for="lane in sortedLanes"
             :key="lane.id"
             :laneInfo="lane"
+            :canEdit="projectInfo.can_edit" />
+          <new-lane-button
+            v-if="projectInfo.can_edit === 1"
+            @laneInfo="addLaneInfo"
+            :projectId="projectInfo.id"
             :canEdit="projectInfo.can_edit"
         /></draggable>
       </div>
-      <new-lane-button
-        v-if="projectInfo.can_edit === 1"
-        @laneInfo="addLaneInfo"
-        :projectId="projectInfo.id"
-        :canEdit="projectInfo.can_edit"
-      />
+    </div>
+    <div
+      v-if="projectInfo.can_edit === 1"
+      id="inviteUserButton"
+      @click="toggleInviteForm"
+    >
+      <v-icon class="addUserIcon">mdi-account-plus</v-icon>
     </div>
     <invite-user
-      v-if="projectInfo.can_edit === 1"
+      class="inviteUserForm"
+      v-if="projectInfo.can_edit === 1 && showInviteForm"
       :projectId="projectInfo.id"
     />
   </main>
@@ -77,6 +87,7 @@ export default {
   data() {
     return {
       projectInfo: {},
+      showInviteForm: false,
       sortedLanes: [],
       buttonInfo: {
         showForm: false,
@@ -85,6 +96,13 @@ export default {
   },
 
   methods: {
+    toggleInviteForm() {
+      if (this.showInviteForm === false) {
+        this.showInviteForm = true;
+      } else {
+        this.showInviteForm = false;
+      }
+    },
     moveLane(event) {
       console.log(event);
       if (event.moved !== undefined) {
@@ -175,11 +193,12 @@ export default {
 <style lang="scss">
 .mainGrid {
   display: grid;
-  margin-left: 10px;
+  margin: 0 4px;
+  position: relative;
 }
 .titleEditGrid {
   display: grid;
-  grid-template-columns: max-content min-content;
+  grid-template-columns: max-content min-content max-content;
   place-items: center;
   background: $secondaryBg;
   border-bottom: 1px solid #c9c9c9;
@@ -229,5 +248,26 @@ export default {
   &:hover {
     cursor: pointer;
   }
+}
+
+#inviteUserButton {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  @include priButton;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+
+  .addUserIcon {
+    color: $primaryTx;
+  }
+}
+.inviteUserForm {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
 }
 </style>
