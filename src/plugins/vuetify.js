@@ -7,8 +7,8 @@ const vuetify = new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: "#001B2B",
-        secondary: "#001B2B",
+        primary: "#13B283",
+        secondary: "#31e4af",
         primaryTx: "#D5D5D5",
         secondaryTx: "#9A9A9A",
         altTx: "#1C1C1C",

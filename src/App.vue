@@ -33,6 +33,10 @@ main {
   background: $primaryBg;
 }
 
+a {
+  text-decoration: none;
+}
+
 #mainGrid {
   display: grid;
   grid-auto-flow: column;

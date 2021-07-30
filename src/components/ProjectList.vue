@@ -2,7 +2,7 @@
   <div class="mainDashPanel">
     <div class="panelTitle">Your Projects</div>
     <div v-if="projects.length > 0">
-      <div v-for="project in projects" :key="project.id">
+      <div class="projectLink" v-for="project in projects" :key="project.id">
         <router-link
           :to="{
             name: 'project',

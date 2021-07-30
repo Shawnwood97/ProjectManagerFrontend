@@ -29,7 +29,7 @@ export default {
   padding: 0px 5px;
   margin: 5px;
   border-radius: 4px;
-  border: 1px solid $altTx;
+  border: 1px solid $mainBorder;
 
   .panelTitle {
     font-weight: bold;
@@ -42,7 +42,9 @@ export default {
     padding: 8px;
     margin: 5px 0;
     border-radius: 4px;
-    border: 1px solid $altTx;
+    border: 1px solid $mainBorder;
+    color: $secondaryb;
+    font-weight: bold;
   }
 
   .btnGrid {

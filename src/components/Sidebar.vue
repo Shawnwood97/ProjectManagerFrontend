@@ -93,6 +93,7 @@ export default {
   width: 100%;
   padding: 10px 0;
   text-align: center;
+  color: $primaryTx;
 
   &:hover {
     cursor: pointer;
