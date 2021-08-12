@@ -7,11 +7,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    userInfo: {},
     userProjects: null,
     otherProjects: null,
     invitedProjects: null,
   },
   mutations: {
+    setUserInfo(state, data) {
+      state.userInfo = data;
+    },
     setOtherProjects(state, data) {
       state.otherProjects = data;
     },

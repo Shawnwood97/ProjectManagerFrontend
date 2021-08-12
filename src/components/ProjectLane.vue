@@ -1,19 +1,19 @@
 <template>
   <div v-if="!laneDeleted">
+    <div class="laneHeader">
+      <h3 class="laneTitle">{{ thisLaneInfo.title }}</h3>
+      <lane-edit-button
+        @changeLane="changeLaneInfo"
+        :laneInfo="thisLaneInfo"
+        v-if="canEdit === 1"
+      />
+      <lane-delete-button
+        @deleteLane="deleteLaneInfo"
+        v-if="canEdit === 1"
+        :laneInfo="thisLaneInfo"
+      />
+    </div>
     <div class="laneContainer">
-      <div class="laneHeader">
-        <h3 class="laneTitle">{{ thisLaneInfo.title }}</h3>
-        <lane-edit-button
-          @changeLane="changeLaneInfo"
-          :laneInfo="thisLaneInfo"
-          v-if="canEdit === 1"
-        />
-        <lane-delete-button
-          @deleteLane="deleteLaneInfo"
-          v-if="canEdit === 1"
-          :laneInfo="thisLaneInfo"
-        />
-      </div>
       <draggable
         :disabled="canEdit !== 1"
         :list="sortedTasks"
