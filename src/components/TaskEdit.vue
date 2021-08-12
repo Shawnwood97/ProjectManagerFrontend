@@ -12,7 +12,7 @@
           <v-text-field
             name="editTaskTitle"
             :value="taskInfo.title"
-            id="editTaskTitle"
+            :id="`editTaskTitle${taskInfo.id}`"
             :maxlength="100"
             solo
             flat
@@ -23,7 +23,7 @@
           <v-text-field
             name="editTaskDesc"
             :value="taskInfo.description"
-            id="editTaskDesc"
+            :id="`editTaskDesc${taskInfo.id}`"
             :maxlength="100"
             solo
             flat
@@ -35,7 +35,7 @@
             <v-text-field
               name="editTaskColor"
               :value="currentColor"
-              id="editTaskColor"
+              :id="`editTaskColor${taskInfo.id}`"
               :maxlength="9"
               solo
               flat
@@ -112,8 +112,11 @@ export default {
             login_token: cookies.get("session").login_token,
             task_id: this.taskInfo.id,
             lane_id: this.taskInfo.lane_id,
-            title: document.getElementById("editTaskTitle").value,
-            description: document.getElementById("editTaskDesc").value,
+            title: document.getElementById(`editTaskTitle${this.taskInfo.id}`)
+              .value,
+            description: document.getElementById(
+              `editTaskDesc${this.taskInfo.id}`
+            ).value,
             accent_hex: this.taskInfo.accent_hex,
           },
         })

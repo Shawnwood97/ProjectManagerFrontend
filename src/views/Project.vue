@@ -196,6 +196,11 @@ export default {
   margin: 0 4px;
   position: relative;
 }
+
+#projectTitle {
+  color: $altTx;
+  text-transform: uppercase;
+}
 .titleEditGrid {
   display: grid;
   grid-template-columns: max-content min-content max-content;
@@ -239,6 +244,8 @@ export default {
 }
 .laneTitle {
   padding: 2px 4px;
+  color: $altTx;
+  text-transform: uppercase;
 }
 
 #projectEditIcon {

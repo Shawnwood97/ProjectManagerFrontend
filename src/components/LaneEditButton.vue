@@ -12,7 +12,7 @@
           <v-text-field
             name="editLaneTitle"
             :value="laneInfo.title"
-            id="editLaneTitle"
+            :id="`editLaneTitle${laneInfo.id}`"
             :maxlength="100"
             solo
             flat
@@ -61,7 +61,8 @@ export default {
           data: {
             login_token: cookies.get("session").login_token,
             lane_id: this.laneInfo.id,
-            title: document.getElementById("editLaneTitle").value,
+            title: document.getElementById(`editLaneTitle${this.laneInfo.id}`)
+              .value,
           },
         })
         .then((res) => {
