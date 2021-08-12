@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <div id="mainGrid">
-        <main-header />
+        <main-header v-if="this.$route.name !== 'Home'" />
         <div id="secGrid">
           <left-sidebar v-if="this.$route.name !== 'Home'" />
           <router-view />

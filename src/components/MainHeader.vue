@@ -2,7 +2,11 @@
   <div id="header">
     <h2 id="logo">KAN<span>Manager</span></h2>
     <div id="headerSpacer"></div>
-    <div class="userInfo" @click="showUserPanel = !showUserPanel">
+    <div
+      v-if="userInfo.avatar != undefined"
+      class="userInfo"
+      @click="showUserPanel = !showUserPanel"
+    >
       <img
         id="userAvatar"
         :src="userInfo.avatar"

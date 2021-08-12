@@ -177,6 +177,7 @@ export default {
         .then((res) => {
           console.log(res.data);
           cookies.set("session", res.data);
+          this.$store.commit("setUserInfo", res.data);
           this.$router.push("Dashboard");
         })
         .catch((err) => {

@@ -52,6 +52,7 @@ export default {
           console.log(res.data);
           cookies.remove("session");
           this.$router.push("Home");
+          this.$store.commit("setUserInfo", {});
         })
         .catch((err) => {
           console.log(err.response);
