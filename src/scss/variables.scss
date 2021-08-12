@@ -34,7 +34,7 @@ $altRedBg: #ba2d2d;
   
   &:hover {
     cursor: pointer;
-    background: #0c3d59;
+    background: $hoverBg;
     }
   }
 @mixin cancelButton {

@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="!taskDeleted"
+    :style="`border-left: 3px solid #${thisTaskInfo.accent_hex}`"
     class="mainTaskContainer"
     @mouseover="showButtons(true)"
     @mouseleave="showButtons(false)"
@@ -101,7 +102,7 @@ export default {
   border-bottom: 1px solid #a3a3a3;
   padding: 6px 0 4px 8px;
   width: 100%;
-  min-height: 60px;
+  min-height: 61px;
 
   &:hover {
     cursor: grab;

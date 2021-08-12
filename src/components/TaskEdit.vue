@@ -117,7 +117,7 @@ export default {
             description: document.getElementById(
               `editTaskDesc${this.taskInfo.id}`
             ).value,
-            accent_hex: this.taskInfo.accent_hex,
+            accent_hex: this.currentColor,
           },
         })
         .then((res) => {
